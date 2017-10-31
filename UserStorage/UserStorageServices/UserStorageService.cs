@@ -10,17 +10,19 @@ namespace UserStorageServices
     {
         private readonly List<User> users;
 
-        public bool IsLoggingEnabled { get; set; }
+        public UserStorageService()
+        {
+            users = new List<User>();
+        }
+        
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
         public int Count => users.Count;
 
-        public UserStorageService()
-        {
-            users = new List<User>();
-        }
+        public bool IsLoggingEnabled { get; set; }
+
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
