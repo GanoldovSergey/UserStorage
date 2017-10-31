@@ -10,6 +10,7 @@ namespace UserStorageServices
     {
         private readonly List<User> users;
 
+
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
@@ -47,17 +48,47 @@ namespace UserStorageServices
         /// <summary>
         /// Removes an existed <see cref="User"/> from the storage.
         /// </summary>
-        public void Remove()
+        public bool Remove(User user)
         {
-            // TODO: Implement Remove() method.
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            return users.Remove(user);
         }
 
         /// <summary>
         /// Searches through the storage for a <see cref="User"/> that matches specified criteria.
         /// </summary>
-        public void Search()
+        public IEnumerable<User> SearchByFirstName(string firstName)
         {
-            // TODO: Implement Search() method.
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(firstName));
+            }
+
+            return users.FindAll(x => x.FirstName == firstName);
+        }
+
+        public IEnumerable<User> SearchByLastName(string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new ArgumentException("LastName is null or empty or whitespace", nameof(lastName));
+            }
+
+            return users.FindAll(x => x.LastName == lastName);
+        }
+
+        public IEnumerable<User> SearchByAge(int age)
+        {
+            if (age < 1)
+            {
+                throw new ArgumentException("Age cannot be less than 1", nameof(age));
+            }
+
+            return users.FindAll(x => x.Age == age);
         }
     }
 }
