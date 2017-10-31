@@ -6,6 +6,11 @@
     public class User
     {
         /// <summary>
+        /// Gets or sets a user id.
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// Gets or sets a user first name.
         /// </summary>
         public string FirstName { get; set; }

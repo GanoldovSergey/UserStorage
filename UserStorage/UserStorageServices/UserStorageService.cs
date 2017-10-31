@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UserStorageServices
 {
@@ -7,12 +8,18 @@ namespace UserStorageServices
     /// </summary>
     public class UserStorageService
     {
+        private readonly List<User> users;
+
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
-        public int Count { get; }
+        public int Count => users.Count;
 
+        public UserStorageService()
+        {
+            users = new List<User>();
+        }
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
@@ -29,7 +36,12 @@ namespace UserStorageServices
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
             }
 
-            // TODO: Implement Add() method and all other validation rules.
+            if (user.Age < 1)
+            {
+                throw new ArgumentException("Age cannot be less than 1", nameof(user));
+            }
+
+            users.Add(user);
         }
 
         /// <summary>
