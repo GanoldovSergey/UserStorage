@@ -10,7 +10,7 @@ namespace UserStorageServices
     {
         private readonly List<User> users;
 
-
+        public bool IsLoggingEnabled { get; set; }
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
@@ -42,6 +42,11 @@ namespace UserStorageServices
                 throw new ArgumentException("Age cannot be less than 1", nameof(user));
             }
 
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
             users.Add(user);
         }
 
@@ -53,6 +58,11 @@ namespace UserStorageServices
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
+            }
+
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
             }
 
             return users.Remove(user);
@@ -68,6 +78,11 @@ namespace UserStorageServices
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(firstName));
             }
 
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
             return users.FindAll(x => x.FirstName == firstName);
         }
 
@@ -78,6 +93,11 @@ namespace UserStorageServices
                 throw new ArgumentException("LastName is null or empty or whitespace", nameof(lastName));
             }
 
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
             return users.FindAll(x => x.LastName == lastName);
         }
 
@@ -86,6 +106,11 @@ namespace UserStorageServices
             if (age < 1)
             {
                 throw new ArgumentException("Age cannot be less than 1", nameof(age));
+            }
+
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
             }
 
             return users.FindAll(x => x.Age == age);
