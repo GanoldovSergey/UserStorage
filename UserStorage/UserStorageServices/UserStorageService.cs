@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace UserStorageServices
 {
@@ -7,11 +8,20 @@ namespace UserStorageServices
     /// </summary>
     public class UserStorageService
     {
+        private readonly List<User> users;
+
+        public UserStorageService()
+        {
+            users = new List<User>();
+        }
+        
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
-        public int Count { get; }
+        public int Count => users.Count;
+
+        public bool IsLoggingEnabled { get; set; }
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
@@ -29,23 +39,83 @@ namespace UserStorageServices
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
             }
 
-            // TODO: Implement Add() method and all other validation rules.
+            if (user.Age < 1)
+            {
+                throw new ArgumentException("Age cannot be less than 1", nameof(user));
+            }
+
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            users.Add(user);
         }
 
         /// <summary>
         /// Removes an existed <see cref="User"/> from the storage.
         /// </summary>
-        public void Remove()
+        public bool Remove(User user)
         {
-            // TODO: Implement Remove() method.
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.Remove(user);
         }
 
         /// <summary>
         /// Searches through the storage for a <see cref="User"/> that matches specified criteria.
         /// </summary>
-        public void Search()
+        public IEnumerable<User> SearchByFirstName(string firstName)
         {
-            // TODO: Implement Search() method.
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(firstName));
+            }
+
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.FindAll(x => x.FirstName == firstName);
+        }
+
+        public IEnumerable<User> SearchByLastName(string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new ArgumentException("LastName is null or empty or whitespace", nameof(lastName));
+            }
+
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.FindAll(x => x.LastName == lastName);
+        }
+
+        public IEnumerable<User> SearchByAge(int age)
+        {
+            if (age < 1)
+            {
+                throw new ArgumentException("Age cannot be less than 1", nameof(age));
+            }
+
+            if (IsLoggingEnabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.FindAll(x => x.Age == age);
         }
     }
 }
