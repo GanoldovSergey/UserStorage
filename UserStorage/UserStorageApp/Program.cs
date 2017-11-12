@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.ServiceModel;
+using UserStorageServices;
 using ServiceConfiguration = ServiceConfigurationSection.ServiceConfigurationSection;
 
 namespace UserStorageApp
@@ -18,7 +19,9 @@ namespace UserStorageApp
             {
                 host.SmartOpen();
 
-                var client = new Client();
+                var storage = new UserStorageService(new UserIdGenerator(), new UserValidator());
+                var storageLog = new UserStorageServiceLog(storage);
+                var client = new Client(storageLog);
 
                 client.Run();
 

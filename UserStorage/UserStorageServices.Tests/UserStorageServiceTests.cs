@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UserStorageServices.Exeptions;
 
 namespace UserStorageServices.Tests
 {
@@ -24,7 +25,7 @@ namespace UserStorageServices.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(FirstNameIsNullOrEmptyException))]
         public void Add_UserFirstNameIsNull_ExceptionThrown()
         {
             // Arrange
@@ -33,14 +34,15 @@ namespace UserStorageServices.Tests
             // Act
             userStorageService.Add(new User
             {
-                FirstName = null
+                FirstName = null,
+                Age = 5
             });
 
             // Assert - [ExpectedException]
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(AgeExceedsLimitsException))]
         public void Add_UserAgeIs0_ExceptionThrown()
         {
             // Arrange
