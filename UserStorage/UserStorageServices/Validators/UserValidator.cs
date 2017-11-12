@@ -3,11 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Validators;
 
 namespace UserStorageServices
 {
     public class UserValidator : IUserValidator
     {
+        private readonly IUserValidator[] validators;
+
+        public UserValidator()
+        {
+            validators = new IUserValidator[]
+            {
+                new AgeValidator(), 
+                new FirstNameValidator(), 
+                new LastNameValidator()
+            };
+        }
+
         public void Validate(User user)
         {
             if (user == null)
@@ -15,14 +28,9 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(user));
             }
 
-            if (string.IsNullOrWhiteSpace(user.FirstName))
+            foreach (var x in validators)
             {
-                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
-            }
-
-            if (user.Age < 1)
-            {
-                throw new ArgumentException("Age cannot be less than 1", nameof(user));
+                x.Validate(user);
             }
         }
     }

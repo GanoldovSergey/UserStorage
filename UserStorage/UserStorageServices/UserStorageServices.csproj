@@ -53,8 +53,12 @@
     <Compile Include="UserIdGenerator.cs" />
     <Compile Include="UserStorageService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserValidator.cs" />
+    <Compile Include="Validators\UserValidator.cs" />
+    <Compile Include="Validators\AgeValidator.cs" />
+    <Compile Include="Validators\FirstNameValidator.cs" />
+    <Compile Include="Validators\LastNameValidator.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
