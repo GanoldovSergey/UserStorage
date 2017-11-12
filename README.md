@@ -141,7 +141,7 @@ The [class diagram](http://www.uml-diagrams.org/class-diagrams-overview.html) be
 ![Client and UserStorageService](images/ClientAndServiceBeginning.png "Client and UserStorageService")
 
 
-- [ ] [Create a new branch](https://git-scm.com/book/ru/v1/Ветвление-в-Git-Основы-ветвления-и-слияния) with name "step1", and switch to this branch. Make sure that you are on "step1" branch before continue.
+- [x] [Create a new branch](https://git-scm.com/book/ru/v1/Ветвление-в-Git-Основы-ветвления-и-слияния) with name "step1", and switch to this branch. Make sure that you are on "step1" branch before continue.
 
 ```sh
 $ git checkout -b step1
@@ -150,26 +150,26 @@ $ git branch
 * step1
 ```
 
-- [ ] Add a new _Id_ field to the _User_ class. Use System.Guid as a field type. The field value should uniquely identify a user in the storage. Review changes. Commit changes.
+- [x] Add a new _Id_ field to the _User_ class. Use System.Guid as a field type. The field value should uniquely identify a user in the storage. Review changes. Commit changes.
 
-- [ ] Add an internal storage to _UserStorageService_ class. Consider collections from [System.Collections.Generic](https://msdn.microsoft.com/en-us/library/system.collections.generic(v=vs.110).aspx) namespace. A new identifier should be populated and assigned to each new entity before adding it to a collection. Implement Count property getter to return the amount of users in the storage. Review and commit.
+- [x] Add an internal storage to _UserStorageService_ class. Consider collections from [System.Collections.Generic](https://msdn.microsoft.com/en-us/library/system.collections.generic(v=vs.110).aspx) namespace. A new identifier should be populated and assigned to each new entity before adding it to a collection. Implement Count property getter to return the amount of users in the storage. Review and commit.
 
-- [ ] _UserStorageService_ class contains Add() method that adds a new user to the storage. The method has one guard clause and one validation statement. Tests for the methods of the class are located in _UserStorageServiceTests_ class. Think what more validation rules you can add here. Add tests for those rules, and then write code to implement them.
+- [x] _UserStorageService_ class contains Add() method that adds a new user to the storage. The method has one guard clause and one validation statement. Tests for the methods of the class are located in _UserStorageServiceTests_ class. Think what more validation rules you can add here. Add tests for those rules, and then write code to implement them.
 
 Test-First: add use cases in form of tests to _UserStorageServiceTests_ class (**red** tests), and only then add implementation to the Add method (make your tests **green**).
 
 Review and commit.
 
-- [ ] Test-First: add use cases (red) and then add an implementation for Remove method (green). Review. Commit.
+- [x] Test-First: add use cases (red) and then add an implementation for Remove method (green). Review. Commit.
 
-- [ ] Test-First: add use cases (red) and then add an implementation for Search method (green). Use cases:
+- [x] Test-First: add use cases (red) and then add an implementation for Search method (green). Use cases:
   * Search by FirstName.
   * Search by LastName.
   * Search by Age.
 
 Review and commit.
 
-- [ ] Add a new bool field _IsLoggingEnabled_ to _UserStorageService_ class, and add logging functionality to Add method:
+- [x] Add a new bool field _IsLoggingEnabled_ to _UserStorageService_ class, and add logging functionality to Add method:
 
 ```cs
 if (IsLoggingEnabled)
@@ -180,7 +180,7 @@ if (IsLoggingEnabled)
 
 Add logging to Remove and Search methods too. Review and commit.
 
-- [ ] Run StyleCop to make sure the code you have added fits defined code standards. Fix all code issues StyleCop identified. Review and commit.
+- [x] Run StyleCop to make sure the code you have added fits defined code standards. Fix all code issues StyleCop identified. Review and commit.
 
 ```sh
 $ git status
@@ -188,7 +188,7 @@ $ git diff
 $ git commit -m "Fix StyleCop issues."
 ```
 
-- [ ] Mark all completed items in README.md. Review and commit.
+- [x] Mark all completed items in README.md. Review and commit.
 
 - Publish "step1" branch to [remote branch](https://git-scm.com/book/ru/v2/Ветвление-в-Git-Удалённые-ветки) on github.
 
@@ -220,11 +220,11 @@ The class diagram below shows the application state after all refactorings in th
 
 ![Client and UserStorageService Step 2](images/ClientAndServiceStep2.png "Client and UserStorageService Step 2")
 
-- [ ] Create a new branch with name "step2", and switch to this branch.
+- [x] Create a new branch with name "step2", and switch to this branch.
 
 _UserStorageService_ is responsible not only for storing user records, but also for generating new identifier and data validation. You will apply [Single Responsibility Principle (SRP)](http://sergeyteplyakov.blogspot.com.by/2014/08/single-responsibility-principle.html) to the service in the next two refactorings.
 
-- [ ] [Extract Class refactoring](https://refactoring.guru/extract-class): extract [strategy](https://refactoring.guru/design-patterns/strategy) of generating new user identifier into a new class.
+- [x] [Extract Class refactoring](https://refactoring.guru/extract-class): extract [strategy](https://refactoring.guru/design-patterns/strategy) of generating new user identifier into a new class.
   * Create a new interface in _UserStorageServices_ project, give it a meaningful name.
   * Test-First: create a new class in _UserStorageServices_ project that implements the interface, and move your code (generation of a new identifier) from _UserStorageService_ class to your new class.
   * Modify _UserStorageService_ to create a new instance of your new class, and use it to generate an identifier when adding a new user.
@@ -233,7 +233,7 @@ Run all tests to make sure that _UserStorageService_ works as expected.
 
 Review and commit.
 
-- [ ] Extract Class: extract strategy of validating user data when adding a new user to the storage.
+- [x] Extract Class: extract strategy of validating user data when adding a new user to the storage.
   * Create a new interface in _UserStorageServices_ project, give it a meaningful name.
   * Test-First: create a new class in _UserStorageServices_ project that implements the interface, and move your code (validation of the user data) from _UserStorageService_ class to your new class.
   * Modify _UserStorageService_ to create a new instance of your new class, and use it to validate a user data when adding a new user.
@@ -242,7 +242,7 @@ Run all tests to make sure that _UserStorageService_ works as expected.
 
 Review and commit.
 
-- [ ] [Extract Interface](https://refactoring.guru/extract-interface): extract an interface for the UserStorageService class.
+- [x] [Extract Interface](https://refactoring.guru/extract-interface): extract an interface for the UserStorageService class.
   * Create a new interface _IUserStorageService_ in _UserStorageServices_ project, give it a meaningful name.
   * Add all public methods and properties from _UserStorageService_ class to your new interface.
   * Refactor _userStorageService field in _Client_ class: change the field type to your new interface.
@@ -250,7 +250,7 @@ Review and commit.
 
 Run tests, review and commit.
 
-- [ ] Configure logging using App.config.
+- [x] Configure logging using App.config.
   * Refactor your _UserStorageService_ class to use [boolean switch](https://msdn.microsoft.com/en-us/library/system.diagnostics.booleanswitch%28v=vs.110%29.aspx) instead of _IsLoggingEnabled_ property.
   * Use _enableLogging_ boolean switch that is already added to your App.config.
   * Remove unnecessary _IsLoggingEnabled_ property.
@@ -258,9 +258,9 @@ Run tests, review and commit.
 
 Run tests, review and commit.
 
-- [ ] Run StyleCop. Fix issues. Commit.
+- [x] Run StyleCop. Fix issues. Commit.
 
-- [ ] Mark. Commit.
+- [x] Mark. Commit.
 
 - Publish "step2" branch to github.
 
