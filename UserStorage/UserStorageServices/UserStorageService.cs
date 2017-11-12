@@ -42,6 +42,7 @@ namespace UserStorageServices
             {
                 Console.WriteLine("Add() method is called.");
             }
+
             user.Id = userIdGenerator.Generate();
             users.Add(user);
         }
