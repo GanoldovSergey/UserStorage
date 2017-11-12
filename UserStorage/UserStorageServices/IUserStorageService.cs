@@ -12,8 +12,12 @@ namespace UserStorageServices
         void Add(User user);
         bool Remove(User user);
         IEnumerable<User> SearchByFirstName(string firstName);
+        IEnumerable<User> SearchByFirstNameAndLastName(string firstName, string lastName);
+        IEnumerable<User> SearchByFirstNameAndAge(string firstName, int age);
         IEnumerable<User> SearchByLastName(string lastName);
+        IEnumerable<User> SearchByLastNameAndAge(string lastName, int age);
         IEnumerable<User> SearchByAge(int age);
+        IEnumerable<User> SearchByFirstNameAndLastNameAndAge(string firstName, string lastName, int age);
 
     }
 }

@@ -14,7 +14,7 @@ namespace UserStorageApp
         /// </summary>
         public Client(IUserStorageService userStorageService = null)
         {
-            _userStorageService = userStorageService ?? new UserStorageService();
+            _userStorageService = userStorageService ?? new UserStorageServiceLog(new UserStorageService());
         }
 
         /// <summary>
@@ -29,9 +29,9 @@ namespace UserStorageApp
                 Age = 25
             });
 
-            _userStorageService.Remove();
+            //_userStorageService.Remove();
 
-            _userStorageService.Search();
+            //_userStorageService.Search();
         }
     }
 }

@@ -16,8 +16,6 @@ namespace UserStorageServices
 
         private readonly IUserValidator userValidator;
 
-        private readonly BooleanSwitch logging = new BooleanSwitch("enableLogging", "switch in app.config");
-
         public UserStorageService(IUserIdGenerator userIdGenerator = null, IUserValidator userValidator = null)
         {
             users = new List<User>();
@@ -39,11 +37,6 @@ namespace UserStorageServices
         {
             userValidator.Validate(user);
 
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
-            }
-
             user.Id = userIdGenerator.Generate();
             users.Add(user);
         }
@@ -56,11 +49,6 @@ namespace UserStorageServices
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
-            }
-
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
             }
 
             return users.Remove(user);
@@ -76,11 +64,6 @@ namespace UserStorageServices
                 throw new FirstNameIsNullOrEmptyException("FirstName is null or empty or whitespace");
             }
 
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
-            }
-
             return users.FindAll(x => x.FirstName == firstName);
         }
 
@@ -94,12 +77,6 @@ namespace UserStorageServices
             if (string.IsNullOrWhiteSpace(lastName))
             {
                 throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
-            }
-            
-
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
             }
 
             return users.FindAll(x => x.FirstName == firstName && x.LastName == lastName);
@@ -117,11 +94,6 @@ namespace UserStorageServices
                 throw new AgeExceedsLimitsException("Age cannot be less than 1");
             }
 
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
-            }
-
             return users.FindAll(x => x.FirstName == firstName && x.Age == age);
         }
 
@@ -131,12 +103,7 @@ namespace UserStorageServices
             {
                 throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
             }
-
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
-            }
-
+            
             return users.FindAll(x => x.LastName == lastName);
         }
 
@@ -152,11 +119,6 @@ namespace UserStorageServices
                 throw new AgeExceedsLimitsException("Age cannot be less than 1");
             }
 
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
-            }
-
             return users.FindAll(x => x.LastName == lastName && x.Age == age);
         }
         
@@ -165,11 +127,6 @@ namespace UserStorageServices
             if (age < 1)
             {
                 throw new AgeExceedsLimitsException("Age cannot be less than 1");
-            }
-
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
             }
 
             return users.FindAll(x => x.Age == age);
@@ -190,11 +147,6 @@ namespace UserStorageServices
             if (age < 1)
             {
                 throw new AgeExceedsLimitsException("Age cannot be less than 1");
-            }
-
-            if (logging.Enabled)
-            {
-                Console.WriteLine("Add() method is called.");
             }
 
             return users.FindAll(x => x.FirstName == firstName && x.LastName == lastName && x.Age == age);
