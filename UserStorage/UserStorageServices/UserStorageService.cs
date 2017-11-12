@@ -1,54 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace UserStorageServices
 {
     /// <summary>
     /// Represents a service that stores a set of <see cref="User"/>s and allows to search through them.
     /// </summary>
-    public class UserStorageService
+    public class UserStorageService : IUserStorageService
     {
         private readonly List<User> users;
 
-        public UserStorageService()
+        private readonly IUserIdGenerator userIdGenerator;
+
+        private readonly IUserValidator userValidator;
+
+        private readonly BooleanSwitch logging = new BooleanSwitch("enableLogging", "switch in app.config");
+
+        public UserStorageService(IUserIdGenerator userIdGenerator = null, IUserValidator userValidator = null)
         {
             users = new List<User>();
+            this.userIdGenerator = userIdGenerator ?? new UserIdGenerator();
+            this.userValidator = userValidator ?? new UserValidator();
         }
-        
+
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
         public int Count => users.Count;
-
-        public bool IsLoggingEnabled { get; set; }
-
+        
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
         public void Add(User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
+            userValidator.Validate(user);
 
-            if (string.IsNullOrWhiteSpace(user.FirstName))
-            {
-                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
-            }
-
-            if (user.Age < 1)
-            {
-                throw new ArgumentException("Age cannot be less than 1", nameof(user));
-            }
-
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
 
+            user.Id = userIdGenerator.Generate();
             users.Add(user);
         }
 
@@ -62,7 +57,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(user));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
@@ -80,7 +75,7 @@ namespace UserStorageServices
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(firstName));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
@@ -95,7 +90,7 @@ namespace UserStorageServices
                 throw new ArgumentException("LastName is null or empty or whitespace", nameof(lastName));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
@@ -110,7 +105,7 @@ namespace UserStorageServices
                 throw new ArgumentException("Age cannot be less than 1", nameof(age));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
