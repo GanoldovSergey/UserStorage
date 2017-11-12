@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace UserStorageServices
 {
@@ -14,6 +15,8 @@ namespace UserStorageServices
 
         private readonly IUserValidator userValidator;
 
+        private readonly BooleanSwitch logging = new BooleanSwitch("enableLogging", "switch in app.config");
+
         public UserStorageService(IUserIdGenerator userIdGenerator = null, IUserValidator userValidator = null)
         {
             users = new List<User>();
@@ -26,9 +29,7 @@ namespace UserStorageServices
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
         public int Count => users.Count;
-
-        public bool IsLoggingEnabled { get; set; }
-
+        
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
@@ -37,7 +38,7 @@ namespace UserStorageServices
         {
             userValidator.Validate(user);
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
@@ -55,7 +56,7 @@ namespace UserStorageServices
                 throw new ArgumentNullException(nameof(user));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
@@ -73,7 +74,7 @@ namespace UserStorageServices
                 throw new ArgumentException("FirstName is null or empty or whitespace", nameof(firstName));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
@@ -88,7 +89,7 @@ namespace UserStorageServices
                 throw new ArgumentException("LastName is null or empty or whitespace", nameof(lastName));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
@@ -103,7 +104,7 @@ namespace UserStorageServices
                 throw new ArgumentException("Age cannot be less than 1", nameof(age));
             }
 
-            if (IsLoggingEnabled)
+            if (logging.Enabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
