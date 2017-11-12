@@ -19,7 +19,7 @@ namespace UserStorageServices
             {
                 if (logging.Enabled)
                 {
-                    Console.WriteLine("Count() method is called.");
+                    Trace.WriteLine("Count() method is called.");
                 }
 
                 return storageService.Count;
@@ -30,7 +30,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("Add() method is called.");
+                Trace.WriteLine("Add() method is called.");
             }
 
             storageService.Add(user);
@@ -39,7 +39,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("Remove() method is called.");
+                Trace.WriteLine("Remove() method is called.");
             }
 
             return storageService.Remove(user);
@@ -48,7 +48,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("SearchByFirstName() method is called.");
+                Trace.WriteLine("SearchByFirstName() method is called.");
             }
 
             return storageService.SearchByFirstName(firstName);
@@ -57,7 +57,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("SearchByFirstNameAndLastName() method is called.");
+                Trace.WriteLine("SearchByFirstNameAndLastName() method is called.");
             }
 
             return storageService.SearchByFirstNameAndLastName(firstName, lastName);
@@ -66,7 +66,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("SearchByFirstNameAndAge() method is called.");
+                Trace.WriteLine("SearchByFirstNameAndAge() method is called.");
             }
 
             return storageService.SearchByFirstNameAndAge(firstName, age);
@@ -75,7 +75,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("SearchByLastName() method is called.");
+                Trace.WriteLine("SearchByLastName() method is called.");
             }
 
             return storageService.SearchByLastName(lastName);
@@ -84,7 +84,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("SearchByLastNameAndAge() method is called.");
+                Trace.WriteLine("SearchByLastNameAndAge() method is called.");
             }
 
             return storageService.SearchByLastNameAndAge(lastName, age);
@@ -93,7 +93,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("SearchByAge() method is called.");
+                Trace.WriteLine("SearchByAge() method is called.");
             }
 
             return storageService.SearchByAge(age);
@@ -102,7 +102,7 @@ namespace UserStorageServices
         {
             if (logging.Enabled)
             {
-                Console.WriteLine("SearchByFirstNameAndLastNameAndAge() method is called.");
+                Trace.WriteLine("SearchByFirstNameAndLastNameAndAge() method is called.");
             }
 
             return storageService.SearchByFirstNameAndLastNameAndAge(firstName, lastName, age);
