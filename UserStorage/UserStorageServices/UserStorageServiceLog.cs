@@ -11,7 +11,9 @@ namespace UserStorageServices
     {
         private readonly BooleanSwitch logging = new BooleanSwitch("enableLogging", "switch in app.config");
 
-        public UserStorageServiceLog(IUserStorageService storageService) : base(storageService) { }
+        public UserStorageServiceLog(IUserStorageService storageService) : base(storageService)
+        {
+        }
 
         public override int Count
         {
@@ -35,6 +37,7 @@ namespace UserStorageServices
 
             storageService.Add(user);
         }
+
         public override bool Remove(User user)
         {
             if (logging.Enabled)
@@ -44,6 +47,7 @@ namespace UserStorageServices
 
             return storageService.Remove(user);
         }
+
         public override IEnumerable<User> SearchByFirstName(string firstName)
         {
             if (logging.Enabled)
@@ -53,6 +57,7 @@ namespace UserStorageServices
 
             return storageService.SearchByFirstName(firstName);
         }
+
         public override IEnumerable<User> SearchByFirstNameAndLastName(string firstName, string lastName)
         {
             if (logging.Enabled)
@@ -62,6 +67,7 @@ namespace UserStorageServices
 
             return storageService.SearchByFirstNameAndLastName(firstName, lastName);
         }
+
         public override IEnumerable<User> SearchByFirstNameAndAge(string firstName, int age)
         {
             if (logging.Enabled)
@@ -71,6 +77,7 @@ namespace UserStorageServices
 
             return storageService.SearchByFirstNameAndAge(firstName, age);
         }
+
         public override IEnumerable<User> SearchByLastName(string lastName)
         {
             if (logging.Enabled)
@@ -80,6 +87,7 @@ namespace UserStorageServices
 
             return storageService.SearchByLastName(lastName);
         }
+
         public override IEnumerable<User> SearchByLastNameAndAge(string lastName, int age)
         {
             if (logging.Enabled)
@@ -89,6 +97,7 @@ namespace UserStorageServices
 
             return storageService.SearchByLastNameAndAge(lastName, age);
         }
+
         public override IEnumerable<User> SearchByAge(int age)
         {
             if (logging.Enabled)
@@ -98,6 +107,7 @@ namespace UserStorageServices
 
             return storageService.SearchByAge(age);
         }
+
         public override IEnumerable<User> SearchByFirstNameAndLastNameAndAge(string firstName, string lastName, int age)
         {
             if (logging.Enabled)
