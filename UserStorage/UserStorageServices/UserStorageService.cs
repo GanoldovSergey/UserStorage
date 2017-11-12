@@ -10,9 +10,12 @@ namespace UserStorageServices
     {
         private readonly List<User> users;
 
-        public UserStorageService()
+        private readonly IUserIdGenerator userIdGenerator;
+
+        public UserStorageService(IUserIdGenerator userIdGenerator = null)
         {
             users = new List<User>();
+            this.userIdGenerator = userIdGenerator ?? new UserIdGenerator();
         }
         
         /// <summary>
