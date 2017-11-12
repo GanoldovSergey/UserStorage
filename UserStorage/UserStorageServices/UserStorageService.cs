@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UserStorageServices.Exeptions;
 
 namespace UserStorageServices
 {
@@ -72,7 +73,7 @@ namespace UserStorageServices
         {
             if (string.IsNullOrWhiteSpace(firstName))
             {
-                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(firstName));
+                throw new FirstNameIsNullOrEmptyException("FirstName is null or empty or whitespace");
             }
 
             if (logging.Enabled)
@@ -83,11 +84,52 @@ namespace UserStorageServices
             return users.FindAll(x => x.FirstName == firstName);
         }
 
+        public IEnumerable<User> SearchByFirstNameAndLastName(string firstName, string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new FirstNameIsNullOrEmptyException("FirstName is null or empty or whitespace");
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
+            }
+            
+
+            if (logging.Enabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.FindAll(x => x.FirstName == firstName && x.LastName == lastName);
+        }
+
+        public IEnumerable<User> SearchByFirstNameAndAge(string firstName, int age)
+        {
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new FirstNameIsNullOrEmptyException("FirstName is null or empty or whitespace");
+            }
+
+            if (age < 1)
+            {
+                throw new AgeExceedsLimitsException("Age cannot be less than 1");
+            }
+
+            if (logging.Enabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.FindAll(x => x.FirstName == firstName && x.Age == age);
+        }
+
         public IEnumerable<User> SearchByLastName(string lastName)
         {
             if (string.IsNullOrWhiteSpace(lastName))
             {
-                throw new ArgumentException("LastName is null or empty or whitespace", nameof(lastName));
+                throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
             }
 
             if (logging.Enabled)
@@ -98,11 +140,31 @@ namespace UserStorageServices
             return users.FindAll(x => x.LastName == lastName);
         }
 
+        public IEnumerable<User> SearchByLastNameAndAge(string lastName, int age)
+        {
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
+            }
+
+            if (age < 1)
+            {
+                throw new AgeExceedsLimitsException("Age cannot be less than 1");
+            }
+
+            if (logging.Enabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.FindAll(x => x.LastName == lastName && x.Age == age);
+        }
+        
         public IEnumerable<User> SearchByAge(int age)
         {
             if (age < 1)
             {
-                throw new ArgumentException("Age cannot be less than 1", nameof(age));
+                throw new AgeExceedsLimitsException("Age cannot be less than 1");
             }
 
             if (logging.Enabled)
@@ -111,6 +173,31 @@ namespace UserStorageServices
             }
 
             return users.FindAll(x => x.Age == age);
+        }
+
+        public IEnumerable<User> SearchByFirstNameAndLastNameAndAge(string firstName, string lastName, int age)
+        {
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new FirstNameIsNullOrEmptyException("FirstName is null or empty or whitespace");
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
+            }
+
+            if (age < 1)
+            {
+                throw new AgeExceedsLimitsException("Age cannot be less than 1");
+            }
+
+            if (logging.Enabled)
+            {
+                Console.WriteLine("Add() method is called.");
+            }
+
+            return users.FindAll(x => x.FirstName == firstName && x.LastName == lastName && x.Age == age);
         }
     }
 }
