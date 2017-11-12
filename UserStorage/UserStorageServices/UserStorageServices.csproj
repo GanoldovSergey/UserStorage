@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IUserIdGenerator.cs" />
+    <Compile Include="IUserStorageService.cs" />
     <Compile Include="IUserValidator.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserIdGenerator.cs" />

@@ -6,7 +6,7 @@ namespace UserStorageServices
     /// <summary>
     /// Represents a service that stores a set of <see cref="User"/>s and allows to search through them.
     /// </summary>
-    public class UserStorageService
+    public class UserStorageService : IUserStorageService
     {
         private readonly List<User> users;
 
@@ -20,7 +20,7 @@ namespace UserStorageServices
             this.userIdGenerator = userIdGenerator ?? new UserIdGenerator();
             this.userValidator = userValidator ?? new UserValidator();
         }
-        
+
         /// <summary>
         /// Gets the number of elements contained in the storage.
         /// </summary>
