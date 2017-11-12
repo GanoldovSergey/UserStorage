@@ -12,10 +12,13 @@ namespace UserStorageServices
 
         private readonly IUserIdGenerator userIdGenerator;
 
-        public UserStorageService(IUserIdGenerator userIdGenerator = null)
+        private readonly IUserValidator userValidator;
+
+        public UserStorageService(IUserIdGenerator userIdGenerator = null, IUserValidator userValidator = null)
         {
             users = new List<User>();
             this.userIdGenerator = userIdGenerator ?? new UserIdGenerator();
+            this.userValidator = userValidator ?? new UserValidator();
         }
         
         /// <summary>
@@ -32,26 +35,13 @@ namespace UserStorageServices
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
         public void Add(User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-
-            if (string.IsNullOrWhiteSpace(user.FirstName))
-            {
-                throw new ArgumentException("FirstName is null or empty or whitespace", nameof(user));
-            }
-
-            if (user.Age < 1)
-            {
-                throw new ArgumentException("Age cannot be less than 1", nameof(user));
-            }
+            userValidator.Validate(user);
 
             if (IsLoggingEnabled)
             {
                 Console.WriteLine("Add() method is called.");
             }
-
+            user.Id = userIdGenerator.Generate();
             users.Add(user);
         }
 
