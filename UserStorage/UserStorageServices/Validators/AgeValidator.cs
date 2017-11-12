@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Exeptions;
 
 namespace UserStorageServices.Validators
 {
@@ -12,7 +13,7 @@ namespace UserStorageServices.Validators
         {
             if (user.Age < 1)
             {
-                throw new ArgumentException("Age cannot be less than 1", nameof(user));
+                throw new AgeExceedsLimitsException("Age cannot be less than 1");
             }
         }
     }

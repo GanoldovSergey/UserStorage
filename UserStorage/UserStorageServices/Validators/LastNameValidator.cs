@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Exeptions;
 
 namespace UserStorageServices.Validators
 {
@@ -12,7 +13,7 @@ namespace UserStorageServices.Validators
         {
             if (string.IsNullOrWhiteSpace(user.LastName))
             {
-                throw new ArgumentException("LastName is null or empty or whitespace", nameof(user));
+                throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
             }
         }
     }
