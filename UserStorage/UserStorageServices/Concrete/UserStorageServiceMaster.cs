@@ -27,6 +27,9 @@ namespace UserStorageServices
 
         public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.MasterNode;
 
+        private event Action<User> AddedToStorage;
+        private event Action<User> RemovedFromStorage;
+
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
@@ -43,10 +46,7 @@ namespace UserStorageServices
                 }
             }
 
-            foreach (var t in subscribers)
-            {
-                t.UserAdded(user);
-            }
+            AddedToStorage?.Invoke(user);
         }
 
         /// <summary>
@@ -63,11 +63,7 @@ namespace UserStorageServices
                         t.Remove(user);
                     }
                 }
-
-                foreach (var t in subscribers)
-                {
-                    t.UserRemoved(user);
-                }
+                RemovedFromStorage?.Invoke(user);
                 return true;
             }
             return false;
@@ -78,6 +74,8 @@ namespace UserStorageServices
             if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
 
             subscribers.Add(subscriber);
+            AddedToStorage += subscriber.UserAdded;
+            RemovedFromStorage += subscriber.UserRemoved;
         }
 
         public void RemoveSubscriber(INotificationSubscriber subscriber)
@@ -85,6 +83,8 @@ namespace UserStorageServices
             if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
 
             subscribers.Remove(subscriber);
+            AddedToStorage -= subscriber.UserAdded;
+            RemovedFromStorage -= subscriber.UserRemoved;
         }
     }
 }
