@@ -24,7 +24,7 @@ namespace UserStorageServices.Concrete
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
-        public void Add(User user)
+        public override void Add(User user)
         {
             if (!HaveMaster())
             {
@@ -37,7 +37,7 @@ namespace UserStorageServices.Concrete
         /// <summary>
         /// Removes an existed <see cref="User"/> from the storage.
         /// </summary>
-        public bool Remove(User user)
+        public override bool Remove(User user)
         {
             if (!HaveMaster())
             {

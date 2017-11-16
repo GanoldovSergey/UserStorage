@@ -16,7 +16,8 @@ namespace UserStorageServices
         private readonly IList<IUserStorageService> slaveServices;
         private readonly IList<INotificationSubscriber> subscribers;
 
-        public UserStorageServiceMaster(IUserIdGenerator userIdGenerator = null,
+        public UserStorageServiceMaster(
+            IUserIdGenerator userIdGenerator = null,
             IUserValidator userValidator = null,
             IEnumerable<IUserStorageService> services = null)
             : base(userIdGenerator, userValidator)
@@ -25,16 +26,17 @@ namespace UserStorageServices
             subscribers = new List<INotificationSubscriber>();
         }
 
-        public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.MasterNode;
-
         private event Action<User> AddedToStorage;
+
         private event Action<User> RemovedFromStorage;
+
+        public override UserStorageServiceMode ServiceMode => UserStorageServiceMode.MasterNode;
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
-        public void Add(User user)
+        public override void Add(User user)
         {
             base.Add(user);
 
@@ -52,7 +54,7 @@ namespace UserStorageServices
         /// <summary>
         /// Removes an existed <see cref="User"/> from the storage.
         /// </summary>
-        public bool Remove(User user)
+        public override bool Remove(User user)
         {
             if (base.Remove(user))
             {
@@ -63,15 +65,20 @@ namespace UserStorageServices
                         t.Remove(user);
                     }
                 }
+
                 RemovedFromStorage?.Invoke(user);
                 return true;
             }
+
             return false;
         }
 
         public void AddSubscriber(INotificationSubscriber subscriber)
         {
-            if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
+            if (subscriber == null)
+            {
+                throw new ArgumentNullException(nameof(subscriber));
+            }
 
             subscribers.Add(subscriber);
             AddedToStorage += subscriber.UserAdded;
@@ -80,7 +87,10 @@ namespace UserStorageServices
 
         public void RemoveSubscriber(INotificationSubscriber subscriber)
         {
-            if (subscriber == null) throw new ArgumentNullException(nameof(subscriber));
+            if (subscriber == null)
+            {
+                throw new ArgumentNullException(nameof(subscriber));
+            }
 
             subscribers.Remove(subscriber);
             AddedToStorage -= subscriber.UserAdded;
