@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Enum;
 
 namespace UserStorageServices
 {
@@ -27,6 +28,7 @@ namespace UserStorageServices
                 return storageService.Count;
             }
         }
+        public override UserStorageServiceMode ServiceMode { get; }
 
         public override void Add(User user)
         {
