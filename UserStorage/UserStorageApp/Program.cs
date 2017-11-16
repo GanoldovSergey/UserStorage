@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using UserStorageServices;
+using UserStorageServices.Concrete;
 using UserStorageServices.Enum;
 using ServiceConfiguration = ServiceConfigurationSection.ServiceConfigurationSection;
 
@@ -21,11 +22,11 @@ namespace UserStorageApp
             {
                 host.SmartOpen();
 
-                var slaveNode1 = new UserStorageService(new UserIdGenerator(), new UserValidator(), UserStorageServiceMode.SlaveNode);
-                var slaveNode2 = new UserStorageService(new UserIdGenerator(), new UserValidator(), UserStorageServiceMode.SlaveNode);
-                var services = new List<UserStorageService>() { slaveNode1, slaveNode2 };
+                var slaveNode1 = new UserStorageServiceSlave(new UserIdGenerator(), new UserValidator());
+                var slaveNode2 = new UserStorageServiceSlave(new UserIdGenerator(), new UserValidator());
+                var services = new List<UserStorageServiceSlave>() { slaveNode1, slaveNode2 };
 
-                var storage = new UserStorageService(new UserIdGenerator(), new UserValidator(), UserStorageServiceMode.MasterNode, services);
+                var storage = new UserStorageServiceMaster(new UserIdGenerator(), new UserValidator(), services);
                 var storageLog = new UserStorageServiceLog(storage);
                 var client = new Client(storageLog);
 

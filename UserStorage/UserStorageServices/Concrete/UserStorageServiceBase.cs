@@ -11,28 +11,21 @@ namespace UserStorageServices
     /// <summary>
     /// Represents a service that stores a set of <see cref="User"/>s and allows to search through them.
     /// </summary>
-    public class UserStorageService : IUserStorageService
+    public abstract class UserStorageServiceBase : IUserStorageService
     {
         private readonly List<User> users;
 
         private readonly IUserIdGenerator userIdGenerator;
         private readonly IUserValidator userValidator;
-        private readonly UserStorageServiceMode mode;
-        private readonly IList<IUserStorageService> slaveServices;
-        private readonly IList<INotificationSubscriber> subscribers;
 
-        public UserStorageService(IUserIdGenerator userIdGenerator = null,
+        protected UserStorageServiceBase(IUserIdGenerator userIdGenerator = null,
             IUserValidator userValidator = null,
             UserStorageServiceMode mode = UserStorageServiceMode.MasterNode,
             IEnumerable<IUserStorageService> services = null)
         {
             users = new List<User>();
-
             this.userIdGenerator = userIdGenerator ?? new UserIdGenerator();
             this.userValidator = userValidator ?? new UserValidator();
-            this.mode = mode;
-            slaveServices = services?.ToList() ?? new List<IUserStorageService>();
-            subscribers = new List<INotificationSubscriber>();
         }
 
         /// <summary>
@@ -40,65 +33,26 @@ namespace UserStorageServices
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
         public int Count => users.Count;
+        public abstract UserStorageServiceMode ServiceMode { get; }
 
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
-        public void Add(User user)
+        public virtual void Add(User user)
         {
-            if (mode == UserStorageServiceMode.SlaveNode)
-            {
-                throw new NotSupportedException("This action is notallowed");
-            }
-
             userValidator.Validate(user);
             user.Id = userIdGenerator.Generate();
             users.Add(user);
-
-            if (slaveServices != null)
-            {
-                foreach (var t in slaveServices)
-                {
-                    t.Add(user);
-                }
-            }
-
-            foreach (var t in subscribers)
-            {
-                t.UserAdded(user);
-            }
         }
 
         /// <summary>
         /// Removes an existed <see cref="User"/> from the storage.
         /// </summary>
-        public bool Remove(User user)
+        public virtual bool Remove(User user)
         {
-            if (mode == UserStorageServiceMode.SlaveNode)
-            {
-                throw new NotSupportedException("This action is notallowed");
-            }
-
             userValidator.Validate(user);
-            
-            if (users.Remove(user))
-            {
-                if (slaveServices != null)
-                {
-                    foreach (var t in slaveServices)
-                    {
-                        t.Remove(user);
-                    }
-                }
-
-                foreach (var t in subscribers)
-                {
-                    t.UserRemoved(user);
-                }
-                return true;
-            }
-            return false;
+            return users.Remove(user);
         }
 
         /// <summary>

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Enum;
 
 namespace UserStorageServices
 {
     public interface IUserStorageService
     {
+        UserStorageServiceMode ServiceMode { get; }
         int Count { get; }
         void Add(User user);
         bool Remove(User user);

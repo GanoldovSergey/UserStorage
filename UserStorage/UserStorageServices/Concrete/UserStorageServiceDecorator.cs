@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UserStorageServices.Enum;
 
 namespace UserStorageServices
 {
@@ -16,6 +17,7 @@ namespace UserStorageServices
         }
 
         public abstract int Count { get; }
+        public abstract UserStorageServiceMode ServiceMode { get; }
         public abstract void Add(User user);
         public abstract bool Remove(User user);
         public abstract IEnumerable<User> SearchByFirstName(string firstName);

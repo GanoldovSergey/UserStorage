@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\UserStorageServiceSlave.cs" />
+    <Compile Include="Concrete\UserStorageServiceMaster.cs" />
     <Compile Include="Enum\UserStorageServiceMode.cs" />
     <Compile Include="Exeptions\AgeExceedsLimitsException.cs" />
     <Compile Include="Exeptions\LastNameIsNullOrEmptyException .cs" />
@@ -56,7 +58,7 @@
     <Compile Include="Interfaces\IUserValidator.cs" />
     <Compile Include="Concrete\User.cs" />
     <Compile Include="Concrete\UserIdGenerator.cs" />
-    <Compile Include="Concrete\UserStorageService.cs" />
+    <Compile Include="Concrete\UserStorageServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Concrete\UserStorageServiceDecorator.cs" />
     <Compile Include="Concrete\UserStorageServiceLog.cs" />
