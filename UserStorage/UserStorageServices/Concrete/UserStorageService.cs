@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using UserStorageServices.Enum;
 using UserStorageServices.Exeptions;
+using UserStorageServices.Interfaces;
 
 namespace UserStorageServices
 {
@@ -18,6 +19,7 @@ namespace UserStorageServices
         private readonly IUserValidator userValidator;
         private readonly UserStorageServiceMode mode;
         private readonly IList<IUserStorageService> slaveServices;
+        private readonly IList<INotificationSubscriber> subscribers;
 
         public UserStorageService(IUserIdGenerator userIdGenerator = null,
             IUserValidator userValidator = null,
@@ -30,6 +32,7 @@ namespace UserStorageServices
             this.userValidator = userValidator ?? new UserValidator();
             this.mode = mode;
             slaveServices = services?.ToList() ?? new List<IUserStorageService>();
+            subscribers = new List<INotificationSubscriber>();
         }
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace UserStorageServices
         /// </summary>
         /// <returns>An amount of users in the storage.</returns>
         public int Count => users.Count;
-        
+
         /// <summary>
         /// Adds a new <see cref="User"/> to the storage.
         /// </summary>
@@ -60,6 +63,11 @@ namespace UserStorageServices
                     t.Add(user);
                 }
             }
+
+            foreach (var t in subscribers)
+            {
+                t.UserAdded(user);
+            }
         }
 
         /// <summary>
@@ -72,19 +80,25 @@ namespace UserStorageServices
                 throw new NotSupportedException("This action is notallowed");
             }
 
-            if (user == null)
+            userValidator.Validate(user);
+            
+            if (users.Remove(user))
             {
-                throw new ArgumentNullException(nameof(user));
-            }
-
-            if (slaveServices != null)
-            {
-                foreach (var t in slaveServices)
+                if (slaveServices != null)
                 {
-                    t.Remove(user);
+                    foreach (var t in slaveServices)
+                    {
+                        t.Remove(user);
+                    }
                 }
+
+                foreach (var t in subscribers)
+                {
+                    t.UserRemoved(user);
+                }
+                return true;
             }
-            return users.Remove(user);
+            return false;
         }
 
         /// <summary>
@@ -136,7 +150,7 @@ namespace UserStorageServices
             {
                 throw new LastNameIsNullOrEmptyException("LastName is null or empty or whitespace");
             }
-            
+
             return users.FindAll(x => x.LastName == lastName);
         }
 
@@ -154,7 +168,7 @@ namespace UserStorageServices
 
             return users.FindAll(x => x.LastName == lastName && x.Age == age);
         }
-        
+
         public IEnumerable<User> SearchByAge(int age)
         {
             if (age < 1)
