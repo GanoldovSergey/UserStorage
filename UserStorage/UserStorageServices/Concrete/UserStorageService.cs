@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using UserStorageServices.Enum;
 using UserStorageServices.Exeptions;
 
 namespace UserStorageServices
@@ -13,14 +15,21 @@ namespace UserStorageServices
         private readonly List<User> users;
 
         private readonly IUserIdGenerator userIdGenerator;
-
         private readonly IUserValidator userValidator;
+        private readonly UserStorageServiceMode mode;
+        private readonly IList<IUserStorageService> slaveServices;
 
-        public UserStorageService(IUserIdGenerator userIdGenerator = null, IUserValidator userValidator = null)
+        public UserStorageService(IUserIdGenerator userIdGenerator = null,
+            IUserValidator userValidator = null,
+            UserStorageServiceMode mode = UserStorageServiceMode.MasterNode,
+            IEnumerable<IUserStorageService> services = null)
         {
             users = new List<User>();
+
             this.userIdGenerator = userIdGenerator ?? new UserIdGenerator();
             this.userValidator = userValidator ?? new UserValidator();
+            this.mode = mode;
+            slaveServices = services?.ToList() ?? new List<IUserStorageService>();
         }
 
         /// <summary>
@@ -35,10 +44,22 @@ namespace UserStorageServices
         /// <param name="user">A new <see cref="User"/> that will be added to the storage.</param>
         public void Add(User user)
         {
-            userValidator.Validate(user);
+            if (mode == UserStorageServiceMode.SlaveNode)
+            {
+                throw new NotSupportedException("This action is notallowed");
+            }
 
+            userValidator.Validate(user);
             user.Id = userIdGenerator.Generate();
             users.Add(user);
+
+            if (slaveServices != null)
+            {
+                foreach (var t in slaveServices)
+                {
+                    t.Add(user);
+                }
+            }
         }
 
         /// <summary>
@@ -46,11 +67,23 @@ namespace UserStorageServices
         /// </summary>
         public bool Remove(User user)
         {
+            if (mode == UserStorageServiceMode.SlaveNode)
+            {
+                throw new NotSupportedException("This action is notallowed");
+            }
+
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
 
+            if (slaveServices != null)
+            {
+                foreach (var t in slaveServices)
+                {
+                    t.Remove(user);
+                }
+            }
             return users.Remove(user);
         }
 

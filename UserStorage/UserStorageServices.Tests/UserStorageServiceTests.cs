@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UserStorageServices.Enum;
 using UserStorageServices.Exeptions;
 
 namespace UserStorageServices.Tests
@@ -121,7 +122,7 @@ namespace UserStorageServices.Tests
 
         #region Search by FirstName 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(FirstNameIsNullOrEmptyException))]
         public void Search_By_FirstName_NullAsUserArgument_ExceptionThrown()
         {
             // Arrange
@@ -166,7 +167,7 @@ namespace UserStorageServices.Tests
 
         #region Search by LastName 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(LastNameIsNullOrEmptyException))]
         public void Search_By_LastName_NullAsUserArgument_ExceptionThrown()
         {
             // Arrange
@@ -211,7 +212,7 @@ namespace UserStorageServices.Tests
 
         #region Search by FirstName 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(AgeExceedsLimitsException))]
         public void Search_By_Age_AgeLessThen1_ExceptionThrown()
         {
             // Arrange
@@ -253,6 +254,35 @@ namespace UserStorageServices.Tests
             Assert.AreEqual(0, res.Count());
         }
         #endregion
-        
+
+        #region MasterSlave
+
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void Add_Slave_ExceptionThrown()
+        {
+            // Arrange
+            var userStorageService = new UserStorageService(mode: UserStorageServiceMode.SlaveNode);
+
+            // Act
+            userStorageService.Add(new User { FirstName = "Hello", LastName = "World", Age = 14 });
+
+            // Assert - [ExpectedException]
+        }
+
+        public void Remove_Slave_ExceptionThrown()
+        {
+            // Arrange
+            var userStorageService = new UserStorageService(mode: UserStorageServiceMode.SlaveNode);
+
+            // Act
+            userStorageService.Remove(new User { FirstName = "Hello", LastName = "World", Age = 14 });
+
+            // Assert - [ExpectedException]
+        }
+
+
+        #endregion
+
     }
 }
